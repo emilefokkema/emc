@@ -22,21 +22,19 @@ require(["testSet", "emc"],function(testSet, emc){
 
 		test("testExtend", function(){
 
-			var thing = emc(function(){
-				var a = 0;
+			var thing = emc(function(a){
 				this.expose({
 					getA:function(){return a;}
 				});
-				this.extend('better',function(){
-					var b = 1;
+				this.extend('better',function(b){
 					this.expose({
 						getB:function(){return b;}
 					})
 				});
 			});
 
-			var simpleThing = thing();
-			var betterThing = thing.better();
+			var simpleThing = thing(0);
+			var betterThing = thing.better(0, 1);
 
 			this.assert(simpleThing.getA() == 0);
 			this.assert(!simpleThing.getB);
