@@ -1,5 +1,5 @@
-;(function(){
- window.makeModule=(function(){
+define([],function(){
+var makeModule=(function(){
             'use strict';
             var addTo=function(obj1,obj2){
                 for(var p in obj2){
@@ -130,4 +130,6 @@
                 return f;
             };
         })();
-})();
+
+return makeModule;
+});
