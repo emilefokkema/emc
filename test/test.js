@@ -40,6 +40,60 @@ require(["testSet", "emc"],function(testSet, emc){
 			this.assert(!simpleThing.getB);
 			this.assert(betterThing.getA() == 0);
 			this.assert(betterThing.getB() == 1);
+		});
+
+		test("testInstanceOf", function(){
+
+			var thing = emc(function(){
+				this.expose({});
+				this.extend('better',function(){
+					this.expose({})
+				});
+			});
+
+			this.assert(thing() instanceof thing);
+			this.assert(thing.better() instanceof thing.better);
+		});
+
+		test("testOverrideProtected",function(){
+
+			var thing = emc(function(){
+				var getName = function(s){return "name " + s;};
+				this.expose({
+					getName:function(s){return getName(s);}
+				});
+				this.extend('better', function(){
+					getName = this.override(getName, function(s){
+						return this(s) + " better";
+					});
+				});
+			});
+
+			var simpleThing = thing();
+			var betterThing = thing.better();
+
+			this.assert(simpleThing.getName("a") == "name a");
+			this.assert(betterThing.getName("a") == "name a better")
+		});
+
+		test("testOveridePublic", function(){
+
+			var thing = emc(function(){
+				this.expose({
+					getName:function(s){return "name " + s;}
+				});
+				this.extend('better', function(){
+					this.expose({
+						getName:function(s){return "name " + s + " better";}
+					})
+				});
+			});
+
+			var simpleThing = thing();
+			var betterThing = thing.better();
+
+			this.assert(simpleThing.getName("a") == "name a");
+			this.assert(betterThing.getName("a") == "name a better")
 		})
 
 	});
