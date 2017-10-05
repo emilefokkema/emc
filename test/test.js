@@ -94,6 +94,27 @@ require(["testSet", "emc"],function(testSet, emc){
 
 			this.assert(simpleThing.getName("a") == "name a");
 			this.assert(betterThing.getName("a") == "name a better")
+		});
+
+		test("testPrependArguments", function(){
+
+			var thing = emc(function(a){
+				a = a + 1;
+				this.expose({
+					getA:function(){return a;}
+				});
+				this.extend('better', function(b){
+					this.expose({
+						getB:function(){return b;}
+					})
+				}, 42);
+			});
+
+			var betterThing = thing.better(2);
+
+			this.assert(betterThing.getA() == 43);
+			this.assert(betterThing.getB() == 2);
+
 		})
 
 	});

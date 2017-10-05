@@ -112,23 +112,7 @@ var makeModule=(function(){
             
 
             };
-            return function(constructor){
-                var currentWrap;
-                var f = makeRealConstructorOf(aliasFunction(function(){return currentWrap;}));
-                var useConstructor = function(c){
-                    currentWrap = wrap(c);
-                    for(var e in currentWrap){
-                        if(currentWrap.hasOwnProperty(e)){
-                            f[e] = currentWrap[e];
-                        }
-                    }
-                };
-                useConstructor(constructor);
-                f.extend = function(name, newConstructor){
-
-                };
-                return f;
-            };
+            return wrap;
         })();
 
 return makeModule;
