@@ -19,4 +19,25 @@ var thingConstructor = function(){
 ```
 in order to make the thing, `var thing = thingConstructor()`, later.
 
-But sometimes we want not just things, but also special things. This is where the extendable module constructor comes 
+But sometimes we want not just things, but also special things. This is where the extendable module constructor comes in handy:
+```js
+var mammal = emc(function(feet){
+	
+	var digestFood = function(){}; //a protected method
+
+	this.expose({
+		getNumberOfFeet:function(){return feet;},
+		rest:function(){digestFood();}
+	});
+
+	this.extend('cat', function(){
+
+		//override the protected method
+		digestFood = function(){console.log("purr");};
+
+		this.expose({
+			getNumberOfPaws:function(){return feet;}
+		});
+	});
+});
+```
