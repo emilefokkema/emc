@@ -17,11 +17,7 @@ var makeModule=(function(){
                 }
                 
             };
-            var aliasFunction = function(getFunction){
-                return function(){
-                    return getFunction().apply(null,arguments);
-                };
-            };
+
             var nothingBeforeExtend=(function(){
                 var functionBody=function(f){
                     return new RegExp("^function\\s*?\\([^)]*?\\)\\s*?{([\\w\\W]*)}$","g").exec(f.toString())[1];
@@ -38,7 +34,7 @@ var makeModule=(function(){
                 return function(f){
                     var body=functionBody(f);
                     
-                        return new Function("",addBlockToBody(functionBody(f)));
+                        return new Function("",addBlockToBody(body));
                     
                 };
             })();
@@ -116,4 +112,6 @@ var makeModule=(function(){
         })();
 
 return makeModule;
+
+
 });
